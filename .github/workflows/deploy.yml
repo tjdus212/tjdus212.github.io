@@ -1,4 +1,4 @@
-name: Deploy Blazor WASM to Azure Static Web Apps
+name: Deploy Blazor WASM to GitHub Pages
 
 on:
   push:
@@ -7,18 +7,17 @@ on:
 
 permissions:
   contents: read
+  pages: write
   id-token: write
 
 concurrency:
-  group: "azure-static-web-apps"
+  group: "pages"
   cancel-in-progress: true
 
 jobs:
-  build_and_deploy:
+  build:
     runs-on: ubuntu-latest
-    name: Build and Deploy Job
-    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-    
+    name: Build
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -39,32 +38,32 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      - name: Cache .NET build artifacts
-        uses: actions/cache@v4
-        with:
-          path: |
-            SwiftPage.Web/bin
-            SwiftPage.Web/obj
-          key: ${{ runner.os }}-dotnet-${{ hashFiles('**/*.csproj') }}
-          restore-keys: |
-            ${{ runner.os }}-dotnet-
-
       - name: Restore dependencies
         run: dotnet restore SwiftPage.Web/SwiftPage.Web.csproj
 
-      - name: Build Blazor WASM
-        run: dotnet build SwiftPage.Web/SwiftPage.Web.csproj -c Release --no-restore
+      - name: Publish Blazor WASM (for GitHub Pages)
+        run: |
+          REPO_NAME="${{ github.event.repository.name }}"
+          dotnet publish SwiftPage.Web/SwiftPage.Web.csproj -c Release -o ./publish \
+            /p:BasePath="/${REPO_NAME}/"
 
-      - name: Publish Blazor WASM
-        run: dotnet publish SwiftPage.Web/SwiftPage.Web.csproj -c Release -o ./publish --no-build
+      # GitHub Pages는 SPA 라우팅(새로고침 404) 방지용으로 404.html을 index.html로 복사해두는게 안전함
+      - name: Add SPA fallback (404.html)
+        run: cp ./publish/wwwroot/index.html ./publish/wwwroot/404.html
 
-      - name: Deploy to Azure Static Web Apps
-        uses: Azure/static-web-apps-deploy@v1
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
-          repo_token: ${{ secrets.GITHUB_TOKEN }} 
-          action: "upload"
-          app_location: "./publish/wwwroot"
-          api_location: ""  
-          output_location: ""  
-          skip_app_build: true
+          path: ./publish/wwwroot
+
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
