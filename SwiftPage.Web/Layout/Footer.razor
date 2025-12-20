@@ -1,0 +1,65 @@
+@using MudBlazor
+
+<MudPaper Elevation="0" Class="footer-root">
+    <MudContainer MaxWidth="MaxWidth.Large" Class="py-4">
+
+        <MudStack Spacing="2">
+
+            <MudText Typo="Typo.subtitle2" Class="footer-brand-name">
+                BuildVision
+            </MudText>
+            <MudText Typo="Typo.body2" Class="text-muted-soft">
+                이 사이트는 업무 화면 템플릿과 컴포넌트 사용 예제를 정리한 문서 페이지입니다.
+            </MudText>
+
+            @* CONTACT (MINIMAL, TEXT-ONLY FEEL) *@
+            <MudStack Row="true" Spacing="2" AlignItems="AlignItems.Center" Wrap="Wrap.Wrap">
+                <MudText Typo="Typo.caption" Class="text-muted-soft">
+                    문의: dylon0723@buildvision.co.kr
+                </MudText>
+
+                <MudText Typo="Typo.caption" Class="text-muted-soft">
+                    ·
+                </MudText>
+
+                <MudText Typo="Typo.caption" Class="text-muted-soft">
+                    Suwon, Republic of Korea
+                </MudText>
+            </MudStack>
+
+            <MudDivider Class="my-3" />
+
+            @* COPYRIGHT / LEGAL LINKS (DOCS-LIKE) *@
+            <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Wrap="Wrap.Wrap">
+
+                <MudText Typo="Typo.caption" Class="text-muted-soft mb-1">
+                    © @DateTime.Now.Year BuildVision. Documentation site.
+                </MudText>
+
+                <MudStack Row="true" Spacing="2" AlignItems="AlignItems.Center" Class="mb-1">
+
+                    <MudText Typo="Typo.caption" Class="text-muted-soft">
+                        Powered by BuildVision components.
+                    </MudText>
+
+                    <MudText Typo="Typo.caption" Class="text-muted-soft">
+                        ·
+                    </MudText>
+
+                    <MudStack Row="true" Spacing="1" AlignItems="AlignItems.Center">
+                        <MudLink Href="/imprint" Class="footer-link">
+                            Imprint
+                        </MudLink>
+                        <MudText Typo="Typo.caption" Class="text-muted-soft">
+                            ·
+                        </MudText>
+                        <MudLink Href="/privacy" Class="footer-link">
+                            Privacy
+                        </MudLink>
+                    </MudStack>
+
+                </MudStack>
+            </MudStack>
+        </MudStack>
+    </MudContainer>
+</MudPaper>

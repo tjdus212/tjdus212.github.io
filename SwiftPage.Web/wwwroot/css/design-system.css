@@ -1,0 +1,368 @@
+/* ============================================
+   통일된 디자인 토큰 및 스타일 시스템
+   ============================================ */
+
+:root {
+    /* ============================================
+       색상 시스템 (MudBlazor 변수와 통합)
+       ============================================ */
+    --bv-primary: #0078D4;
+    --bv-primary-dark: #005A9E;
+    --bv-primary-light: #40A9FF;
+    
+    --bv-success: #107C10;
+    --bv-warning: #FFB900;
+    --bv-error: #D13438;
+    --bv-info: #0078D4;
+    
+    /* ============================================
+       간격 시스템 (8px 기준)
+       ============================================ */
+    --bv-spacing-xs: 4px;
+    --bv-spacing-sm: 8px;
+    --bv-spacing-md: 16px;
+    --bv-spacing-lg: 24px;
+    --bv-spacing-xl: 32px;
+    --bv-spacing-2xl: 48px;
+    --bv-spacing-3xl: 64px;
+    
+    /* ============================================
+       Border Radius 시스템
+       ============================================ */
+    --bv-radius-sm: 4px;
+    --bv-radius-md: 8px;
+    --bv-radius-lg: 12px;
+    --bv-radius-xl: 16px;
+    --bv-radius-full: 9999px;
+    
+    /* ============================================
+       그림자 시스템
+       ============================================ */
+    --bv-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --bv-shadow-md: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --bv-shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.12);
+    --bv-shadow-xl: 0 6px 18px rgba(0, 0, 0, 0.15);
+    --bv-shadow-2xl: 0 12px 24px rgba(0, 0, 0, 0.18);
+    
+    --bv-shadow-primary-sm: 0 2px 4px rgba(0, 120, 212, 0.1);
+    --bv-shadow-primary-md: 0 2px 8px rgba(0, 120, 212, 0.2);
+    --bv-shadow-primary-lg: 0 4px 12px rgba(0, 120, 212, 0.3);
+    
+    /* ============================================
+       트랜지션 시스템
+       ============================================ */
+    --bv-transition-fast: 0.15s ease;
+    --bv-transition-base: 0.2s ease;
+    --bv-transition-slow: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --bv-transition-slower: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* ============================================
+       타이포그래피 스케일
+       ============================================ */
+    --bv-font-size-xs: 0.75rem;    /* 12px */
+    --bv-font-size-sm: 0.875rem;   /* 14px */
+    --bv-font-size-base: 1rem;      /* 16px */
+    --bv-font-size-lg: 1.125rem;   /* 18px */
+    --bv-font-size-xl: 1.25rem;     /* 20px */
+    --bv-font-size-2xl: 1.5rem;    /* 24px */
+    --bv-font-size-3xl: 1.875rem;  /* 30px */
+    --bv-font-size-4xl: 2.25rem;   /* 36px */
+    
+    --bv-font-weight-normal: 400;
+    --bv-font-weight-medium: 500;
+    --bv-font-weight-semibold: 600;
+    --bv-font-weight-bold: 700;
+    
+    --bv-line-height-tight: 1.2;
+    --bv-line-height-normal: 1.5;
+    --bv-line-height-relaxed: 1.7;
+    
+    /* ============================================
+       Z-Index 시스템
+       ============================================ */
+    --bv-z-base: 0;
+    --bv-z-dropdown: 1000;
+    --bv-z-sticky: 1020;
+    --bv-z-fixed: 1030;
+    --bv-z-modal-backdrop: 1040;
+    --bv-z-modal: 1050;
+    --bv-z-popover: 1060;
+    --bv-z-tooltip: 1070;
+    --bv-z-drawer: 1100;
+    --bv-z-appbar: 1200;
+}
+
+/* ============================================
+   전역 스타일 개선
+   ============================================ */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-feature-settings: "kern" 1, "liga" 1;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================
+   MudBlazor 컴포넌트 통일 스타일
+   ============================================ */
+
+/* 버튼 통일 */
+.mud-button {
+    border-radius: var(--bv-radius-md);
+    font-weight: var(--bv-font-weight-medium);
+    text-transform: none;
+    letter-spacing: 0.01em;
+    transition: all var(--bv-transition-base);
+}
+
+.mud-button:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--bv-shadow-md);
+}
+
+.mud-button:active {
+    transform: translateY(0);
+}
+
+.mud-button-filled {
+    box-shadow: var(--bv-shadow-sm);
+}
+
+.mud-button-filled:hover {
+    box-shadow: var(--bv-shadow-lg);
+}
+
+/* 카드 통일 */
+.mud-card {
+    border-radius: var(--bv-radius-lg);
+    transition: all var(--bv-transition-slow);
+    overflow: hidden;
+}
+
+.mud-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--bv-shadow-xl) !important;
+}
+
+/* Paper 통일 */
+.mud-paper {
+    border-radius: var(--bv-radius-lg);
+    transition: all var(--bv-transition-base);
+}
+
+/* Chip 통일 */
+.mud-chip {
+    border-radius: var(--bv-radius-full);
+    font-weight: var(--bv-font-weight-medium);
+    letter-spacing: 0.02em;
+}
+
+/* TextField, Select 등 입력 필드 통일 */
+.mud-input-control {
+    border-radius: var(--bv-radius-md);
+}
+
+.mud-input-outlined .mud-input-outlined-border {
+    border-radius: var(--bv-radius-md);
+}
+
+.mud-input-filled {
+    border-radius: var(--bv-radius-md) var(--bv-radius-md) 0 0;
+}
+
+/* Divider 통일 */
+.mud-divider {
+    opacity: 0.6;
+}
+
+/* AppBar 통일 */
+.mud-appbar {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: var(--bv-shadow-sm);
+}
+
+/* Drawer 통일 */
+.mud-drawer {
+    box-shadow: var(--bv-shadow-lg);
+}
+
+/* NavLink 통일 */
+.mud-nav-link {
+    border-radius: var(--bv-radius-md);
+    margin: 2px 0;
+    transition: all var(--bv-transition-base);
+}
+
+.mud-nav-link:hover {
+    background-color: color-mix(in srgb, var(--mud-palette-primary) 8%, transparent);
+}
+
+.mud-nav-link.active {
+    background-color: color-mix(in srgb, var(--mud-palette-primary) 12%, transparent);
+    border-left: 3px solid var(--mud-palette-primary);
+    font-weight: var(--bv-font-weight-semibold);
+}
+
+/* Alert 통일 */
+.mud-alert {
+    border-radius: var(--bv-radius-md);
+    border-left-width: 4px;
+}
+
+/* Dialog 통일 */
+.mud-dialog {
+    border-radius: var(--bv-radius-lg);
+}
+
+/* Snackbar 통일 */
+.mud-snackbar {
+    border-radius: var(--bv-radius-md);
+}
+
+/* Table 통일 */
+.mud-table {
+    border-radius: var(--bv-radius-md);
+    overflow: hidden;
+}
+
+.mud-table-row:hover {
+    background-color: color-mix(in srgb, var(--mud-palette-primary) 4%, transparent);
+}
+
+/* ============================================
+   커스텀 컴포넌트 통일
+   ============================================ */
+
+/* 모든 카드 스타일 통일 */
+.card-elevated {
+    border-radius: var(--bv-radius-lg);
+    box-shadow: var(--bv-shadow-md);
+    transition: all var(--bv-transition-slow);
+    background-color: var(--mud-palette-surface);
+}
+
+.card-elevated:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--bv-shadow-xl);
+}
+
+/* 섹션 간격 통일 */
+.section-spacing {
+    margin-top: var(--bv-spacing-3xl);
+    margin-bottom: var(--bv-spacing-3xl);
+}
+
+.section-spacing-sm {
+    margin-top: var(--bv-spacing-xl);
+    margin-bottom: var(--bv-spacing-xl);
+}
+
+/* 컨테이너 통일 */
+.content-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--bv-spacing-md);
+}
+
+/* ============================================
+   다크 테마 개선
+   ============================================ */
+
+.mud-theme-dark .mud-card {
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.mud-theme-dark .mud-paper {
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.mud-theme-dark .mud-button-outlined {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ============================================
+   반응형 개선
+   ============================================ */
+
+@media (max-width: 960px) {
+    :root {
+        --bv-spacing-xl: 24px;
+        --bv-spacing-2xl: 32px;
+        --bv-spacing-3xl: 48px;
+    }
+    
+    .mud-card:hover {
+        transform: none;
+    }
+    
+    .card-elevated:hover {
+        transform: none;
+    }
+}
+
+@media (max-width: 600px) {
+    :root {
+        --bv-radius-lg: 8px;
+        --bv-radius-xl: 12px;
+    }
+}
+
+/* ============================================
+   접근성 개선
+   ============================================ */
+
+*:focus-visible {
+    outline: 2px solid var(--mud-palette-primary);
+    outline-offset: 2px;
+    border-radius: var(--bv-radius-sm);
+}
+
+button:focus-visible,
+a:focus-visible {
+    outline-offset: 3px;
+}
+
+/* ============================================
+   애니메이션 개선
+   ============================================ */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn var(--bv-transition-slow) ease-out;
+}
+
+.slide-in {
+    animation: slideIn var(--bv-transition-slow) ease-out;
+}
+

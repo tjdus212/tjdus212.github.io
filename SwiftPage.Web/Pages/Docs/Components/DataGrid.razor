@@ -1,0 +1,214 @@
+@page "/docs/components/data-grid"
+@layout DocsLayout
+@using System.Globalization
+@using SwiftPage.Web.Shared
+
+<PageTitle>BuildVision DataGrid</PageTitle>
+
+<div style="padding: 24px; max-width: 1200px; margin: 0 auto;">
+
+    @* =========================
+       상단 소개 영역
+       ========================= *@
+    <div style="margin-bottom: 32px;">
+        <div style="font-size: 12px; text-transform: uppercase; color: #1976d2; margin-bottom: 8px; letter-spacing: .08em;">
+            DATA GRID / TABLE VIEW
+        </div>
+
+        <h2 style="margin: 0 0 8px 0; font-size: 28px; font-weight: 600;">
+            데이터 그리드로 업무 데이터 관리하기
+        </h2>
+
+        <p style="margin: 0 0 6px 0; font-size: 16px; color: #444;">
+            이 페이지는 BuildVision에서 제공하는
+            <b>표(DataGrid) 기반 업무 화면</b>이
+            실제로 어떻게 동작하는지 시연하는 예시입니다.
+        </p>
+
+        <p style="margin: 0; font-size: 14px; color: #666; line-height: 1.6;">
+            아래에서 <b>인라인 편집</b>, <b>모달 편집</b>, <b>검색 / 필터</b>, <b>페이지네이션</b>까지
+            표 화면에서 자주 사용하는 기능을 한 번에 살펴볼 수 있습니다.
+        </p>
+    </div>
+
+    @* =========================
+       인라인 / 모달 편집 섹션
+       ========================= *@
+    <div style="background: #fff; padding: 24px; margin-bottom: 24px; border: 1px solid #e0e0e0; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,.04);">
+        <div style="margin-bottom: 16px;">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                <span style="font-size: 11px; text-transform: uppercase; padding: 4px 8px; border: 1px solid #1976d2; color: #1976d2; border-radius: 999px; letter-spacing: .08em;">
+                    EDITING
+                </span>
+                <h3 style="margin: 0; font-size: 20px; font-weight: 600;">
+                    인라인 편집 / 모달 편집
+                </h3>
+            </div>
+
+            <p style="margin: 0 0 16px 0; font-size: 14px; color: #666;">
+                같은 직원 데이터라도, 상황에 따라 <b>표 안에서 바로 수정</b>하거나
+                <b>팝업으로 자세히 보고 수정</b>해야 할 때가 있습니다.
+                아래 탭에서 두 가지 방식을 비교해볼 수 있습니다.
+            </p>
+
+            <MudTabs Rounded="true" Elevation="0" Class="mt-3" ActivePanelIndex="_activeTabIndex" ActivePanelIndexChanged="@OnTabChanged">
+
+                <!-- 인라인 편집 탭 -->
+                <MudTabPanel Text="인라인 편집" Icon="@Icons.Material.Filled.Edit">
+                    <div style="margin-top: 16px;">
+                        <h4 style="margin: 0 0 8px 0; font-size: 16px; font-weight: 500;">
+                            인라인 편집
+                        </h4>
+
+                        <p style="margin: 0 0 16px 0; font-size: 14px; color: #666; line-height: 1.6;">
+                            인라인 편집은 <b>표 안에서 바로 값을 고치는 방식</b>입니다.
+                            화면 이동 없이 빠르게 수정할 수 있어
+                            단순 변경 작업에 효과적입니다.
+                        </p>
+
+                        <div style="padding: 16px; border: 1px solid #e0e0e0; border-radius: 8px; background: #fafafa;">
+                            <p style="margin: 0 0 12px 0; font-size: 14px; color: #666;">
+                                직원 목록 (인라인 편집 예시) - 셀을 클릭하여 편집하고 Tab 키로 저장하세요
+                            </p>
+                            <div id="inlineEditTable"></div>
+                        </div>
+                    </div>
+                </MudTabPanel>
+
+                <!-- 모달 편집 탭 -->
+                <MudTabPanel Text="모달 편집" Icon="@Icons.Material.Filled.OpenInNew">
+                    <div style="margin-top: 16px;">
+                        <h4 style="margin: 0 0 8px 0; font-size: 16px; font-weight: 500;">
+                            모달(팝업) 편집
+                        </h4>
+
+                        <p style="margin: 0 0 16px 0; font-size: 14px; color: #666; line-height: 1.6;">
+                            모달 편집은 많은 입력 필드나 승인 과정이 필요한
+                            변경 작업을 처리할 때 유용합니다.
+                        </p>
+
+                        <div style="padding: 16px; border: 1px solid #e0e0e0; border-radius: 8px; background: #fafafa;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                                <p style="margin: 0; font-size: 14px; color: #666;">
+                                    직원 목록 (모달 편집 예시)
+                                </p>
+
+                                <MudButton Color="Color.Primary"
+                                           Variant="Variant.Filled"
+                                           Size="Size.Small"
+                                           OnClick="OpenCreateDialog"
+                                           StartIcon="@Icons.Material.Filled.Add">
+                                    신규 직원 추가
+                                </MudButton>
+                            </div>
+
+                            <div id="modalEditTable"></div>
+                        </div>
+
+                        <MudDialog Visible="_isDialogOpen">
+                            <DialogContent>
+                                <MudText Typo="Typo.h6" Class="mb-3">
+                                    @_dialogTitle
+                                </MudText>
+
+                                <MudTextField @bind-Value="_dialogModel.Name" Label="이름" Class="mb-3" />
+
+                                <MudTextField @bind-Value="_dialogModel.Department" Label="부서" Class="mb-3" />
+
+                                <MudDatePicker Date="_dialogModel.JoinDate"
+                                    DateChanged="@((DateTime? date) => _dialogModel.JoinDate = date ?? DateTime.Today)"
+                                    Label="입사일" DateFormat="yyyy-MM-dd" Culture="@CultureInfo.GetCultureInfo("ko-KR")"
+                                    TitleDateFormat="M'월' d'일' ddd'요일'" Class="mb-3" />
+                            </DialogContent>
+
+                            <DialogActions>
+                                <MudButton Color="Color.Primary" OnClick="SaveDialog">
+                                    저장
+                                </MudButton>
+
+                                <MudButton Color="Color.Default" Variant="Variant.Outlined" OnClick="CloseDialog">
+                                    취소
+                                </MudButton>
+                            </DialogActions>
+                        </MudDialog>
+                    </div>
+                </MudTabPanel>
+            </MudTabs>
+
+            <div style="margin-top: 16px; padding: 12px 14px; background: #e3f2fd; border: 1px solid #90caf9; border-radius: 6px; font-size: 13px;">
+                <b>Tip.</b> 실제 업무 화면에서는 인라인 편집과 모달 편집을
+                <span style="color:#1976d2;">업무 유형에 맞게 조합</span>해서 사용할 수 있습니다.
+            </div>
+        </div>
+    </div>
+
+    @* =========================
+       검색 / 필터링
+       ========================= *@
+    <div style="background: #fff; padding: 24px; margin-bottom: 24px; border: 1px solid #e0e0e0; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,.04);">
+        <div style="margin-bottom: 16px;">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                <span style="font-size: 11px; text-transform: uppercase; padding: 4px 8px; border: 1px solid #7b1fa2; color: #7b1fa2; border-radius: 999px; letter-spacing: .08em;">
+                    SEARCH & FILTER
+                </span>
+                <h3 style="margin: 0; font-size: 20px; font-weight: 600;">
+                    검색 / 필터링
+                </h3>
+            </div>
+
+            <p style="margin: 0 0 16px 0; font-size: 14px; color: #666; line-height: 1.6;">
+                Tabulator의 <b>헤더 필터</b> 기능을 사용하여
+                각 컬럼별로 검색 및 필터링할 수 있습니다.
+            </p>
+
+            <div style="padding: 16px; border: 1px solid #e0e0e0; border-radius: 8px; background:#fafafa;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <p style="margin: 0; font-size: 14px; color: #666;">
+                        헤더의 필터 입력란을 사용하여 검색 및 필터링하세요.
+                        부서 컬럼은 <b>전체 / 부서 선택 셀렉트 박스</b>로 필터링할 수 있습니다.
+                    </p>
+
+                    <MudButton Variant="Variant.Outlined"
+                               Color="Color.Default"
+                               Size="Size.Small"
+                               OnClick="ClearFilterConditions"
+                               StartIcon="@Icons.Material.Filled.Refresh">
+                    </MudButton>
+                </div>
+
+                <div id="filterTable"></div>
+            </div>
+        </div>
+    </div>
+
+    @* =========================
+       페이지네이션
+       ========================= *@
+    <div style="background: #fff; padding: 24px; margin-bottom: 24px; border: 1px solid #e0e0e0; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,.04);">
+        <div style="margin-bottom: 16px;">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                <span style="font-size: 11px; text-transform: uppercase; padding: 4px 8px; border: 1px solid #0288d1; color: #0288d1; border-radius: 999px; letter-spacing: .08em;">
+                    PAGINATION
+                </span>
+                <h3 style="margin: 0; font-size: 20px; font-weight: 600;">
+                    페이지네이션
+                </h3>
+            </div>
+
+            <p style="margin: 0 0 16px 0; font-size: 14px; color: #666; line-height: 1.6;">
+                데이터가 많아지면 한 화면에 보여주기 어렵기 때문에
+                <b>페이지 단위로 나누어 표시</b>합니다.
+                헤더 필터를 사용하여 검색 및 필터링도 가능합니다.
+            </p>
+
+            <div style="padding: 16px; border: 1px solid #e0e0e0; border-radius: 8px; background:#fafafa;">
+                <div id="paginationTable"></div>
+            </div>
+        </div>
+    </div>
+
+    @* =========================
+       네비게이션
+       ========================= *@
+    <DocsNavigation />
+</div>

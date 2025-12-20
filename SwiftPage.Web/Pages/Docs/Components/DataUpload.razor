@@ -1,0 +1,324 @@
+@page "/docs/components/data-upload"
+@using SwiftPage.Web.Shared
+@layout DocsLayout
+
+<PageTitle>BuildVision 데이터 업로드 / 다운로드</PageTitle>
+
+<MudStack Spacing="6" Class="pb-10">
+
+    @* =========================
+       상단 소개
+       ========================= *@
+    <MudStack Spacing="2" Class="mb-4">
+        <MudText Typo="Typo.overline" Color="Color.Primary">
+            DATA IMPORT / EXPORT
+        </MudText>
+
+        <MudText Typo="Typo.h4" Class="mb-1">
+            데이터 가져오기 / 내보내기
+        </MudText>
+
+        <MudText Typo="Typo.body1" Class="mb-1">
+            이 페이지는 BuildVision에서 제공하는
+            <b>엑셀 기반 데이터 가져오기(업로드) / 내보내기(다운로드)</b> 기능이
+            실제 업무에서 어떻게 사용되는지 이해할 수 있도록 설명하는 예시입니다.
+        </MudText>
+
+        <MudText Typo="Typo.body2">
+            인사, 제품, 거래 기록처럼 대량의 데이터를 엑셀로 관리하고 있다면,
+            이 기능을 통해 <b>쉽게 시스템과 연동</b>할 수 있습니다.
+        </MudText>
+    </MudStack>
+
+    @* =========================
+       스텝퍼
+       ========================= *@
+    <MudPaper Class="p-6" Elevation="1">
+        <MudStack Spacing="3">
+
+            <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
+                <MudChip T="string" Color="Color.Primary" Variant="Variant.Outlined" Label="true" Size="Size.Small">
+                    PROCESS
+                </MudChip>
+
+                <MudText Typo="Typo.h5">
+                    데이터 업로드 프로세스
+                </MudText>
+            </MudStack>
+
+            <MudStepper ShowResetButton="true" @bind-ActiveIndex="_activeStep" Linear="false">
+
+                @* STEP 1: 템플릿 다운로드 *@
+                <MudStep Label="STEP 1 · 템플릿 다운로드" Icon="@Icons.Material.Filled.Description">
+                    <MudStack Spacing="3" Class="mt-3">
+                        <MudText Typo="Typo.subtitle1" Class="mb-1">
+                            엑셀 템플릿 다운로드
+                        </MudText>
+
+                        <MudText Typo="Typo.body2">
+                            BuildVision에서 제공하는 <b>표준 엑셀 양식(템플릿)</b>을 내려받습니다.
+                        </MudText>
+
+                        <MudList T="string" Dense="true">
+                            <MudListItem>
+                                각 열의 의미(예: 직원 이름, 부서, 입사일)와 입력 형식 안내가 포함되어 있습니다.
+                            </MudListItem>
+                            <MudListItem>
+                                <b>엑셀만 알면 누구나</b> 템플릿 형식에 맞춰 데이터를 준비할 수 있습니다.
+                            </MudListItem>
+                        </MudList>
+
+                        <MudDivider Class="my-2" />
+
+                        <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                            <MudStack Spacing="1">
+                                <MudText Typo="Typo.body2">
+                                    직원 데이터용 엑셀 템플릿
+                                </MudText>
+                                <MudText Typo="Typo.caption">
+                                    이름(Name), 부서(Department), 입사일(JoinDate) 열이
+                                    미리 정의된 엑셀/CSV 형식의 파일입니다.
+                                </MudText>
+                            </MudStack>
+
+                            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="DownloadTemplate">
+                                템플릿 다운로드
+                            </MudButton>
+                        </MudStack>
+                    </MudStack>
+                </MudStep>
+
+                @* STEP 2: 현재 데이터 엑셀로 받기 *@
+                <MudStep Label="STEP 2 · 현재 데이터 받기" Icon="@Icons.Material.Filled.Download">
+                    <MudStack Spacing="3" Class="mt-3">
+                        <MudText Typo="Typo.subtitle1" Class="mb-1">
+                            현재 시스템 데이터를 엑셀로 받기
+                        </MudText>
+
+                        <MudText Typo="Typo.body2">
+                            이미 시스템에 저장되어 있는 데이터를
+                            <b>엑셀로 내려받아 백업</b>하거나 다른 시스템으로 전달할 수 있습니다.
+                        </MudText>
+
+                        <MudList T="string" Dense="true">
+                            <MudListItem>
+                                내려받은 파일은 그대로 보관용으로 사용하거나,
+                                필요한 일부 행만 복사해 템플릿에 붙여 넣을 수 있습니다.
+                            </MudListItem>
+                            <MudListItem>
+                                이 데모에서는 <b>내려받은 파일을 그대로 다시 올려 전체를 덮어쓰는 방식은 사용하지 않습니다.</b>
+                            </MudListItem>
+                        </MudList>
+
+                        <MudDivider Class="my-2" />
+
+                        <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                            <MudStack Spacing="1">
+                                <MudText Typo="Typo.body2">
+                                    현재 직원 목록을 엑셀로 저장
+                                </MudText>
+                                <MudText Typo="Typo.caption">
+                                    예) 현재 시스템에 등록된 직원 목록을
+                                    Id, 이름, 부서, 입사일 열을 포함한 파일로 내려받습니다.
+                                </MudText>
+                            </MudStack>
+
+                            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="DownloadCurrentData">
+                                현재 데이터 다운로드
+                            </MudButton>
+                        </MudStack>
+                    </MudStack>
+                </MudStep>
+
+                @* STEP 3: 엑셀 업로드로 신규 데이터 등록 *@
+                <MudStep Label="STEP 3 · 엑셀 업로드" Icon="@Icons.Material.Filled.UploadFile">
+                    <MudStack Spacing="3" Class="mt-3">
+                        <MudText Typo="Typo.subtitle1" Class="mb-1">
+                            엑셀 업로드로 신규 데이터 등록
+                        </MudText>
+
+                        <MudText Typo="Typo.body2">
+                            템플릿 엑셀 파일에 <b>새로 추가할 직원 정보</b>를 채운 뒤,
+                            아래에서 파일을 선택하여 업로드하면
+                            시스템이 내용을 자동으로 읽어 <b>신규 데이터를 등록</b>합니다.
+                        </MudText>
+
+                        <MudList T="string" Dense="true">
+                            <MudListItem>
+                                기존에 저장되어 있던 데이터는 <b>수정하거나 삭제하지 않습니다.</b>
+                            </MudListItem>
+                            <MudListItem>
+                                전체 데이터를 한 번에 덮어쓰는 작업은 <b>지원하지 않습니다.</b>
+                            </MudListItem>
+                            <MudListItem>
+                                형식 오류나 누락된 값이 있으면
+                                <b>어떤 행에서 문제가 발생했는지</b> 결과 메시지로 알려줍니다.
+                            </MudListItem>
+                        </MudList>
+
+                        <MudDivider Class="my-2" />
+
+                        <MudStack Spacing="3">
+                            <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
+                                <MudText Typo="Typo.body2">
+                                    엑셀(또는 CSV) 파일 선택
+                                </MudText>
+
+                                <InputFile OnChange="HandleFileSelected" />
+                            </MudStack>
+
+                            <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
+                                <MudButton Variant="Variant.Filled" Color="Color.Primary"
+                                    Disabled="@(!_isFileSelected || _isUploading)" OnClick="StartImport">
+                                    @(_isUploading ? "업로드 중..." : "업로드 시작")
+                                </MudButton>
+
+                                <MudText Typo="Typo.caption">
+                                    파일을 선택한 후 "업로드 시작" 버튼을 누르면
+                                    각 행을 새로운 데이터로 추가합니다.
+                                    기존에 저장된 데이터는 변경되지 않습니다.
+                                </MudText>
+                            </MudStack>
+
+                            @if (_isUploading)
+                            {
+                                <MudProgressLinear Indeterminate="true" Class="mt-1" />
+                            }
+                        </MudStack>
+                    </MudStack>
+                </MudStep>
+
+                @* STEP 4: 업로드 결과 요약 *@
+                <MudStep Label="STEP 4 · 업로드 결과" Icon="@Icons.Material.Filled.Assessment">
+                    <MudStack Spacing="3" Class="mt-3">
+                        <MudText Typo="Typo.subtitle1" Class="mb-1">
+                            업로드 결과 확인
+                        </MudText>
+
+                        <MudText Typo="Typo.body2" Class="mb-2">
+                            업로드가 완료되면, 총 몇 건이 성공했고
+                            몇 건에서 오류가 발생했는지 요약해서 보여줍니다.
+                        </MudText>
+
+                        <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
+                            <MudText Typo="Typo.body2">
+                                업로드 결과 요약
+                            </MudText>
+
+                            <MudChip T="string" Color="Color.Success" Variant="Variant.Filled" Size="Size.Small">
+                                성공: @_successCount 건
+                            </MudChip>
+
+                            <MudChip T="string" Color="Color.Error" Variant="Variant.Filled" Size="Size.Small">
+                                실패: @_failureCount 건
+                            </MudChip>
+                        </MudStack>
+
+                        @if (_importResults is { Count: > 0 })
+                        {
+                            <MudTable Items="_importResults" Dense="true" Hover="true" Class="mt-2">
+                                <HeaderContent>
+                                    <MudTh>행 번호</MudTh>
+                                    <MudTh>상태</MudTh>
+                                    <MudTh>메시지</MudTh>
+                                </HeaderContent>
+
+                                <RowTemplate>
+                                    <MudTd DataLabel="행 번호">@context.RowNumber</MudTd>
+                                    <MudTd DataLabel="상태">@context.Status</MudTd>
+                                    <MudTd DataLabel="메시지">@context.Message</MudTd>
+                                </RowTemplate>
+                            </MudTable>
+                        }
+                        else
+                        {
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">
+                                아직 업로드 결과가 없습니다. 템플릿을 채운 뒤 파일을 업로드해 보세요.
+                            </MudText>
+                        }
+                    </MudStack>
+                </MudStep>
+            </MudStepper>
+        </MudStack>
+    </MudPaper>
+
+    @* =========================
+       PREVIEW: 현재 시스템 데이터 미리보기
+       ========================= *@
+    <MudPaper Class="p-6 mt-4" Elevation="1">
+        <MudStack Spacing="3">
+            <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
+                <MudChip T="string" Color="Color.Info" Variant="Variant.Outlined" Label="true" Size="Size.Small">
+                    PREVIEW
+                </MudChip>
+
+                <MudText Typo="Typo.h5">
+                    현재 시스템 데이터 미리보기
+                </MudText>
+            </MudStack>
+
+            <MudText Typo="Typo.body2">
+                아래 표는 현재 시스템에 저장되어 있는 직원 목록을 그대로 보여줍니다.
+                페이지를 처음 열었을 때 등록되어 있던 <b>기존 데이터</b>와
+                방금 <b>엑셀 업로드를 통해 추가된 데이터</b>를 함께 확인할 수 있습니다.
+            </MudText>
+
+            @if (_employees is { Count: > 0 })
+            {
+                <MudTable Items="_employees" Dense="true" Hover="true" Class="mt-2">
+                    <HeaderContent>
+                        <MudTh>ID</MudTh>
+                        <MudTh>이름</MudTh>
+                        <MudTh>부서</MudTh>
+                        <MudTh>입사일</MudTh>
+                    </HeaderContent>
+
+                    <RowTemplate>
+                        <MudTd DataLabel="ID">@context.Id</MudTd>
+                        <MudTd DataLabel="이름">@context.Name</MudTd>
+                        <MudTd DataLabel="부서">@context.Department</MudTd>
+                        <MudTd DataLabel="입사일">@context.JoinDate.ToString("yyyy-MM-dd")</MudTd>
+                    </RowTemplate>
+                </MudTable>
+            }
+            else
+            {
+                <MudText Typo="Typo.caption" Color="Color.Secondary">
+                    아직 등록된 직원 데이터가 없습니다. 템플릿을 내려받아 첫 데이터를 업로드해 보세요.
+                </MudText>
+            }
+
+            <MudText Typo="Typo.caption" Class="mt-2">
+                이 표는 데모용 in-memory 데이터이지만,
+                실제 환경에서는 데이터베이스에 저장된 최신 정보를 기준으로
+                동일한 방식으로 미리보기를 제공할 수 있습니다.
+            </MudText>
+        </MudStack>
+    </MudPaper>
+
+    @* =========================
+       마무리 안내
+       ========================= *@
+    <MudStack Spacing="2" Class="mb-2">
+        <MudAlert Severity="Severity.Warning" Variant="Variant.Outlined" Dense="true">
+            안전한 운영을 위해, 이 예시에서는
+            <b>엑셀 업로드를 통해 전체 데이터를 통째로 덮어쓰는 작업을 지원하지 않습니다.</b>
+            업로드된 각 행은 <b>신규 데이터 추가</b>로만 처리되며,
+            기존 데이터는 변경되지 않습니다.
+        </MudAlert>
+
+        <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Dense="true">
+            엑셀 기반 데이터 가져오기 / 내보내기 기능을 활용하면,
+            기존에 사용하던 스프레드시트 자산을 그대로 유지하면서
+            BuildVision 시스템과 <b>부드럽게 연동</b>할 수 있습니다.
+            초기 도입 시에는 과거 데이터를 한 번에 올리고,
+            이후에는 정기적으로 데이터를 다운로드하거나
+            일부를 추가로 등록하는 방식으로 운영할 수 있습니다.
+        </MudAlert>
+    </MudStack>
+
+    @* =========================
+       네비게이션
+       ========================= *@
+    <DocsNavigation />
+</MudStack>

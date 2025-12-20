@@ -1,0 +1,151 @@
+@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+@using SwiftPage.Web.Layout
+
+<MudLayout>
+    <AppBar OnToggleDrawer="@ToggleDrawer" OnToggleDarkMode="@ToggleDarkMode" ShowHeaderMenu="true" />
+
+    <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
+        <MudStack Spacing="0">
+            <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="pa-2">
+                <MudText Typo="Typo.h6" Class="ml-2">메뉴</MudText>
+                <MudIconButton Icon="@Icons.Material.Filled.Close" Color="Color.Default" Size="Size.Small" OnClick="@ToggleDrawer" />
+            </MudStack>
+            <MudDivider />
+        </MudStack>
+
+        <MudNavMenu>
+            <!-- 상단 글로벌 메뉴 -->
+            <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">
+                홈
+            </MudNavLink>
+            <MudNavLink Href="/docs" Icon="@Icons.Material.Filled.MenuBook" Match="NavLinkMatch.Prefix">
+                문서
+            </MudNavLink>
+
+            <MudDivider Class="my-2" />
+
+            <!-- 시작하기 -->
+            <MudNavGroup Title="시작하기"
+                        Icon="@Icons.Material.Filled.Start"
+                        Expanded="@IsGettingStartedExpanded">
+                @foreach (var page in _gettingStarted)
+                {
+                    <MudNavLink Href="@(page.Route)" Match="NavLinkMatch.All">
+                        @(page.Title)
+                    </MudNavLink>
+                }
+            </MudNavGroup>
+
+            <!-- 컴포넌트 -->
+            <MudNavGroup Title="컴포넌트"
+                        Icon="@Icons.Material.Filled.Widgets"
+                        Expanded="@IsComponentsExpanded">
+                @foreach (var page in _components)
+                {
+                    <MudNavLink Href="@(page.Route)" Match="NavLinkMatch.Prefix">
+                        @(page.Title)
+                    </MudNavLink>
+                }
+            </MudNavGroup>
+
+            <!-- API -->
+            <MudNavGroup Title="API 레퍼런스"
+                        Icon="@Icons.Material.Filled.Code"
+                        Expanded="@IsApiExpanded">
+                @foreach (var page in _apiPages)
+                {
+                    <MudNavLink Href="@(page.Route)" Match="NavLinkMatch.Prefix">
+                        @(page.Title)
+                    </MudNavLink>
+                }
+            </MudNavGroup>
+        </MudNavMenu>
+    </MudDrawer>
+
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.Large" Class="mt-4 mb-8">
+            @Body
+        </MudContainer>
+        <Footer />
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    [CascadingParameter(Name = "App")]
+    public App? App { get; set; }
+
+    private bool _drawerOpen = true;
+
+    private IEnumerable<PostPage> _gettingStarted = Enumerable.Empty<PostPage>();
+    private IEnumerable<PostPage> _components = Enumerable.Empty<PostPage>();
+    private IEnumerable<PostPage> _apiPages = Enumerable.Empty<PostPage>();
+
+    protected override void OnInitialized()
+    {
+        var pages = PostRegistry.Pages;
+
+        _gettingStarted = pages.Where(p => p.Category == PostCategory.GettingStarted);
+        _components = pages.Where(p => p.Category == PostCategory.Components);
+        _apiPages = pages.Where(p => p.Category == PostCategory.Api);
+    }
+
+    private bool IsCurrentRoute(string route)
+    {
+        // 현재 URI를 기준 경로(relative path)로 변환 (예: "docs/components/data-grid")
+        var relative = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+
+        // 비교 편의를 위해 항상 "/"로 시작하도록 정규화 (예: "/docs/components/data-grid")
+        if (!relative.StartsWith("/"))
+            relative = "/" + relative;
+
+        // 등록된 Route(PostRegistry.Route)도 기본적으로 "/docs..." 형태이므로
+        // 현재 경로가 해당 Route로 시작하면 "그 그룹의 자식 페이지에 있다"고 판단
+        return relative.StartsWith(route, StringComparison.OrdinalIgnoreCase);
+    }
+
+    private bool IsGroupExpanded(IEnumerable<PostPage> pages)
+        => pages.Any(p => IsCurrentRoute(p.Route));
+
+    private bool IsGettingStartedExpanded => IsGroupExpanded(_gettingStarted);
+    private bool IsComponentsExpanded => IsGroupExpanded(_components);
+    private bool IsApiExpanded => IsGroupExpanded(_apiPages);
+
+    private void ToggleDrawer()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+
+    private async Task ToggleDarkMode()
+    {
+        if (App != null)
+        {
+            App.ToggleDarkMode();
+            // localStorage에 저장하여 다음 방문 시에도 유지
+            try
+            {
+                await JSRuntime.InvokeVoidAsync("localStorage.setItem", "darkMode", App.IsDarkMode.ToString().ToLower());
+            }
+            catch { }
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && App != null)
+        {
+            // localStorage에서 다크모드 설정 불러오기
+            try
+            {
+                var savedDarkMode = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "darkMode");
+                if (bool.TryParse(savedDarkMode, out var isDarkMode) && isDarkMode != App.IsDarkMode)
+                {
+                    App.SetDarkMode(isDarkMode);
+                    StateHasChanged();
+                }
+            }
+            catch { }
+        }
+    }
+}

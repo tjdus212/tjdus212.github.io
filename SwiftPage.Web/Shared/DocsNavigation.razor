@@ -1,0 +1,103 @@
+@using SwiftPage.Web.Shared
+@inject NavigationManager NavigationManager
+
+@if (PreviousPage is not null || NextPage is not null)
+{
+    <MudDivider Class="my-6" />
+    
+    <MudStack Row="true" Spacing="3" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Stretch">
+        @if (PreviousPage is not null)
+        {
+            <MudCard Class="flex-grow-1 flex-basis-0" Elevation="1">
+                <MudCardContent>
+                    <MudStack Spacing="1">
+                        <MudText Typo="Typo.caption" Color="Color.Secondary">
+                            이전 문서
+                        </MudText>
+                        <MudLink Href="@PreviousPage.Route" Typo="Typo.subtitle1" Color="Color.Primary" Underline="Underline.Hover">
+                            <MudStack Row="true" Spacing="1" AlignItems="AlignItems.Center">
+                                <MudIcon Icon="@Icons.Material.Filled.ArrowBack" Size="Size.Small" />
+                                <MudText>@PreviousPage.Title</MudText>
+                            </MudStack>
+                        </MudLink>
+                        @if (!string.IsNullOrEmpty(PreviousPage.Description))
+                        {
+                            <MudText Typo="Typo.body2" Class="text-muted mt-1">
+                                @PreviousPage.Description
+                            </MudText>
+                        }
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        }
+        else
+        {
+            <div class="flex-grow-1 flex-basis-0"></div>
+        }
+
+        @if (NextPage is not null)
+        {
+            <MudCard Class="flex-grow-1 flex-basis-0" Elevation="1">
+                <MudCardContent>
+                    <MudStack Spacing="1">
+                        <MudText Typo="Typo.caption" Color="Color.Secondary">
+                            다음 문서
+                        </MudText>
+                        <MudLink Href="@NextPage.Route" Typo="Typo.subtitle1" Color="Color.Primary" Underline="Underline.Hover">
+                            <MudStack Row="true" Spacing="1" AlignItems="AlignItems.Center" Justify="Justify.FlexEnd">
+                                <MudText>@NextPage.Title</MudText>
+                                <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Size="Size.Small" />
+                            </MudStack>
+                        </MudLink>
+                        @if (!string.IsNullOrEmpty(NextPage.Description))
+                        {
+                            <MudText Typo="Typo.body2" Class="text-muted mt-1">
+                                @NextPage.Description
+                            </MudText>
+                        }
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        }
+        else
+        {
+            <div class="flex-grow-1 flex-basis-0"></div>
+        }
+    </MudStack>
+}
+
+@code {
+    private PostPage? PreviousPage { get; set; }
+    private PostPage? NextPage { get; set; }
+
+    protected override void OnInitialized()
+    {
+        var currentRoute = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+        if (!currentRoute.StartsWith("/"))
+            currentRoute = "/" + currentRoute;
+
+        var currentPage = PostRegistry.Pages.FirstOrDefault(p => p.Route == currentRoute);
+        
+        if (currentPage is not null)
+        {
+            // 같은 카테고리 내에서 Order로 정렬된 페이지 목록 가져오기
+            var pagesInCategory = PostRegistry.Pages
+                .Where(p => p.Category == currentPage.Category)
+                .OrderBy(p => p.Order)
+                .ToList();
+
+            var currentIndex = pagesInCategory.FindIndex(p => p.Route == currentPage.Route);
+
+            if (currentIndex > 0)
+            {
+                PreviousPage = pagesInCategory[currentIndex - 1];
+            }
+
+            if (currentIndex < pagesInCategory.Count - 1)
+            {
+                NextPage = pagesInCategory[currentIndex + 1];
+            }
+        }
+    }
+}
+

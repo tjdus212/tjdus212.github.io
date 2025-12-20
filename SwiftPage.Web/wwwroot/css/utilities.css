@@ -1,0 +1,170 @@
+/* ============================================
+   공통 유틸리티 클래스
+   Design System 변수 기반
+   ============================================ */
+
+/* 텍스트 색상 */
+.text-muted-soft {
+    color: var(--mud-palette-text-secondary);
+}
+
+.text-primary {
+    color: var(--mud-palette-primary);
+}
+
+.text-secondary {
+    color: var(--mud-palette-text-secondary);
+}
+
+/* 폰트 굵기 */
+.font-normal {
+    font-weight: var(--bv-font-weight-normal);
+}
+
+.font-medium {
+    font-weight: var(--bv-font-weight-medium);
+}
+
+.font-semibold {
+    font-weight: var(--bv-font-weight-semibold);
+}
+
+.font-bold {
+    font-weight: var(--bv-font-weight-bold);
+}
+
+/* 최대 너비 */
+.max-600 {
+    max-width: 600px;
+}
+
+.max-800 {
+    max-width: 800px;
+}
+
+.max-1200 {
+    max-width: 1200px;
+}
+
+/* 플렉스 유틸리티 */
+.flex-grow-1 {
+    flex-grow: 1;
+}
+
+.flex-basis-0 {
+    flex-basis: 0;
+}
+
+/* 최소 너비 */
+.min-width-260 {
+    min-width: 260px;
+}
+
+.min-width-160 {
+    min-width: 160px;
+}
+
+/* 간격 유틸리티 (추가) */
+.gap-xs {
+    gap: var(--bv-spacing-xs);
+}
+
+.gap-sm {
+    gap: var(--bv-spacing-sm);
+}
+
+.gap-md {
+    gap: var(--bv-spacing-md);
+}
+
+.gap-lg {
+    gap: var(--bv-spacing-lg);
+}
+
+/* Border Radius 유틸리티 */
+.rounded-sm {
+    border-radius: var(--bv-radius-sm);
+}
+
+.rounded-md {
+    border-radius: var(--bv-radius-md);
+}
+
+.rounded-lg {
+    border-radius: var(--bv-radius-lg);
+}
+
+.rounded-xl {
+    border-radius: var(--bv-radius-xl);
+}
+
+.rounded-full {
+    border-radius: var(--bv-radius-full);
+}
+
+/* 그림자 유틸리티 */
+.shadow-sm {
+    box-shadow: var(--bv-shadow-sm);
+}
+
+.shadow-md {
+    box-shadow: var(--bv-shadow-md);
+}
+
+.shadow-lg {
+    box-shadow: var(--bv-shadow-lg);
+}
+
+.shadow-xl {
+    box-shadow: var(--bv-shadow-xl);
+}
+
+/* 트랜지션 유틸리티 */
+.transition-fast {
+    transition: all var(--bv-transition-fast);
+}
+
+.transition-base {
+    transition: all var(--bv-transition-base);
+}
+
+.transition-slow {
+    transition: all var(--bv-transition-slow);
+}
+
+/* 호버 효과 */
+.hover-lift:hover {
+    transform: translateY(-2px);
+    transition: transform var(--bv-transition-base);
+}
+
+.hover-scale:hover {
+    transform: scale(1.05);
+    transition: transform var(--bv-transition-base);
+}
+
+/* 텍스트 정렬 */
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+/* 반응형 유틸리티 */
+@media (max-width: 960px) {
+    .hide-md {
+        display: none !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .hide-sm {
+        display: none !important;
+    }
+}

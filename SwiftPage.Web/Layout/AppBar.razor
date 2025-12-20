@@ -1,0 +1,53 @@
+@using MudBlazor
+
+<MudAppBar Elevation="1" Dense="true" Class="appbar-root">
+    <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Default" Edge="Edge.Start"
+        OnClick="@OnToggleDrawer" />
+
+    <MudLink Href="/" Color="Color.Inherit" Underline="Underline.None" Class="brand-link ml-2">
+        <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2" Class="brand-stack">
+            <div class="brand-logo-container">
+                <img src="favicon.png" alt="BuildVision" class="brand-logo" />
+            </div>
+            <MudText Typo="Typo.subtitle1" Class="brand-name">
+                BuildVision
+            </MudText>
+        </MudStack>
+    </MudLink>
+
+    <MudSpacer />
+
+    @* 데스크탑 메뉴 *@
+    @if (ShowHeaderMenu)
+    {
+        <MudStack Row="true" Spacing="1" AlignItems="AlignItems.Center" Class="mr-2 header-menu-stack">
+
+            <MudButton Variant="Variant.Text" Color="Color.Default" Href="/" Class="header-menu-button">
+                홈
+            </MudButton>
+
+            <MudButton Variant="Variant.Text" Color="Color.Default" Href="/docs" Class="header-menu-button">
+                문서
+            </MudButton>
+
+            <MudButton Variant="Variant.Text" Color="Color.Default" Href="/team" Class="header-menu-button">
+                팀 소개
+            </MudButton>
+        </MudStack>
+    }
+
+    @* 다크 모드 토글 *@
+    <MudIconButton Icon="@(App?.IsDarkMode == true ? Icons.Material.Filled.LightMode : Icons.Material.Filled.DarkMode)"
+        Color="Color.Default" Edge="Edge.End" OnClick="@OnToggleDarkMode"
+        Title="@(App?.IsDarkMode == true ? "라이트 모드로 전환" : "다크 모드로 전환")" />
+
+</MudAppBar>
+
+@code {
+    [CascadingParameter(Name = "App")]
+    public App? App { get; set; }
+
+    [Parameter] public EventCallback OnToggleDrawer { get; set; }
+    [Parameter] public EventCallback OnToggleDarkMode { get; set; }
+    [Parameter] public bool ShowHeaderMenu { get; set; } = false;
+}

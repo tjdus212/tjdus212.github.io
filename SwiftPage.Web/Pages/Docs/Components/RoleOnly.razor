@@ -1,0 +1,123 @@
+@page "/docs/components/role-visibility"
+@using SwiftPage.Web.Shared
+@layout DocsLayout
+
+<PageTitle>권한 기반 표시</PageTitle>
+
+<MudStack Spacing="6" Class="pb-10">
+
+    @* =========================
+       상단 소개
+       ========================= *@
+    <MudStack Spacing="2" Class="mb-4">
+        <MudText Typo="Typo.overline" Color="Color.Primary">
+            ROLE VISIBILITY
+        </MudText>
+
+        <MudText Typo="Typo.h4" Class="mb-1">
+            권한 기반 표시
+        </MudText>
+
+        <MudText Typo="Typo.body1">
+            회사에서는 관리자(Admin)와 직원(User)처럼
+            담당 업무가 다른 사람들이 함께 시스템을 사용합니다.
+            이때, 모든 메뉴를 모두에게 보여 주면 화면이 복잡해지고
+            불필요한 메뉴를 실수로 눌러 문제가 발생할 수 있습니다.
+            <br />
+            BuildVision에서는 권한을 <b>Admin / User 두 가지로 단순화</b>하고,
+            각 역할에 따라 보이는 메뉴를 나누어 관리합니다.
+        </MudText>
+    </MudStack>
+
+
+    @* =========================
+       역할별 메뉴 비교 (핵심 유지)
+       ========================= *@
+    <MudPaper Class="p-6 mt-2" Elevation="1">
+        <MudStack Spacing="3">
+
+            <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
+                <MudChip T="string" Color="Color.Secondary" Variant="Variant.Outlined" Label="true" Size="Size.Small">
+                    COMPARISON
+                </MudChip>
+
+                <MudText Typo="Typo.h5">
+                    역할에 따른 화면 비교
+                </MudText>
+            </MudStack>
+
+            <MudText Typo="Typo.body2" Class="mb-2">
+                관리자(Admin)는 회사 전체 운영과 관련된 메뉴까지 모두 볼 수 있고,
+                직원(User)은 자신의 업무에 필요한 핵심 메뉴만 보게 됩니다.
+                아래 탭에서 두 역할의 화면 구성을 직관적으로 비교할 수 있습니다.
+            </MudText>
+
+            <MudTabs Rounded="true" Elevation="0" Class="mt-3">
+                <MudTabPanel Text="Admin 화면">
+                    <MudStack Spacing="1" Class="mt-2">
+                        <MudText Typo="Typo.subtitle1">Admin (관리자)</MudText>
+                        <MudText Typo="Typo.caption">
+                            회사 전체 계정·설정·데이터를 관리하는 기능까지 포함된 전체 메뉴가 표시됩니다.
+                        </MudText>
+
+                        <MudList T="string" Dense="true" Class="mt-1">
+                            <MudListItem>
+                                <MudText>대시보드</MudText>
+                            </MudListItem>
+                            <MudListItem>
+                                <MudText>직원 관리</MudText>
+                            </MudListItem>
+                            <MudListItem>
+                                <MudText>제품 관리</MudText>
+                            </MudListItem>
+                            <MudDivider Class="my-1" />
+                            <MudListItem>
+                                <MudText Color="Color.Primary">시스템 설정</MudText>
+                            </MudListItem>
+                            <MudListItem>
+                                <MudText Color="Color.Primary">사용자 관리</MudText>
+                            </MudListItem>
+                            <MudListItem>
+                                <MudText Color="Color.Primary">데이터 백업</MudText>
+                            </MudListItem>
+                        </MudList>
+                    </MudStack>
+                </MudTabPanel>
+
+                <MudTabPanel Text="User 화면">
+                    <MudStack Spacing="1" Class="mt-2">
+                        <MudText Typo="Typo.subtitle1">User (직원)</MudText>
+                        <MudText Typo="Typo.caption">
+                            복잡한 설정 메뉴 없이, 업무에 필요한 메뉴만 간단하게 나타납니다.
+                            신입 직원도 쉽게 사용할 수 있는 구성입니다.
+                        </MudText>
+
+                        <MudList T="string" Dense="true" Class="mt-1">
+                            <MudListItem>
+                                <MudText>대시보드</MudText>
+                            </MudListItem>
+                            <MudListItem>
+                                <MudText>직원 관리</MudText>
+                            </MudListItem>
+                            <MudListItem>
+                                <MudText>제품 관리</MudText>
+                            </MudListItem>
+                        </MudList>
+                    </MudStack>
+                </MudTabPanel>
+            </MudTabs>
+        </MudStack>
+    </MudPaper>
+    <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Class="mt-6">
+        이 페이지의 예시는 BuildVision에서 사용하는 기본 권한 구조인
+        <b>Admin / User 두 가지 역할</b>을 기준으로 한 화면입니다.
+        실제 도입 시에는 이 두 역할을 기준으로
+        <b>우리 회사에 필요한 메뉴만 선택해서 보이도록/숨기도록</b>
+        설정하게 됩니다.
+    </MudAlert>
+
+    @* =========================
+       네비게이션
+       ========================= *@
+    <DocsNavigation />
+</MudStack>

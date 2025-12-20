@@ -1,0 +1,70 @@
+name: Deploy Blazor WASM to Azure Static Web Apps
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: "azure-static-web-apps"
+  cancel-in-progress: true
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    name: Build and Deploy Job
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+          lfs: false
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "9.0.x"
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Cache .NET build artifacts
+        uses: actions/cache@v4
+        with:
+          path: |
+            SwiftPage.Web/bin
+            SwiftPage.Web/obj
+          key: ${{ runner.os }}-dotnet-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-dotnet-
+
+      - name: Restore dependencies
+        run: dotnet restore SwiftPage.Web/SwiftPage.Web.csproj
+
+      - name: Build Blazor WASM
+        run: dotnet build SwiftPage.Web/SwiftPage.Web.csproj -c Release --no-restore
+
+      - name: Publish Blazor WASM
+        run: dotnet publish SwiftPage.Web/SwiftPage.Web.csproj -c Release -o ./publish --no-build
+
+      - name: Deploy to Azure Static Web Apps
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }} 
+          action: "upload"
+          app_location: "./publish/wwwroot"
+          api_location: ""  
+          output_location: ""  
+          skip_app_build: true

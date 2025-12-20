@@ -1,0 +1,75 @@
+﻿<MudThemeProvider Theme="@theme" IsDarkMode="@_isDarkMode" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+<MudPopoverProvider />
+
+<CascadingValue Value="@this" Name="App">
+    <Router AppAssembly="@typeof(App).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+    </Found>
+    <NotFound>
+        <PageTitle>Not found</PageTitle>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <p role="alert">Sorry, there's nothing at this address.</p>
+        </LayoutView>
+    </NotFound>
+</Router>
+</CascadingValue>
+
+@code {
+    private bool _isDarkMode = false;
+    private MudTheme theme = new MudTheme()
+    {
+        PaletteLight = new PaletteLight()
+        {
+            Primary = "#0078D4",
+            Secondary = "#0078D4",
+            Background = "#FFFFFF",
+            AppbarBackground = "#FFFFFF",
+            DrawerBackground = "#F8F9FA",
+            DrawerText = "#323130",
+            Surface = "#FFFFFF",
+            TextPrimary = "#323130",
+            TextSecondary = "#605E5C",
+            Divider = "#EDEBE9"
+        },
+        PaletteDark = new PaletteDark()
+        {
+            Primary = "#0078D4",
+            Secondary = "#0078D4",
+            Background = "#1E1E1E",
+            AppbarBackground = "#252526",
+            DrawerBackground = "#252526",
+            DrawerText = "#FFFFFF",
+            Surface = "#2D2D30",
+            TextPrimary = "#FFFFFF",
+            TextSecondary = "#CCCCCC",
+            Divider = "#3E3E42"
+        },
+        LayoutProperties = new LayoutProperties()
+        {
+            DefaultBorderRadius = "4px",
+            DrawerWidthLeft = "280px",
+            DrawerWidthRight = "280px"
+        }
+    };
+
+    public bool IsDarkMode => _isDarkMode;
+
+    public void ToggleDarkMode()
+    {
+        _isDarkMode = !_isDarkMode;
+        StateHasChanged();
+    }
+
+    public void SetDarkMode(bool isDarkMode)
+    {
+        if (_isDarkMode != isDarkMode)
+        {
+            _isDarkMode = isDarkMode;
+            StateHasChanged();
+        }
+    }
+}

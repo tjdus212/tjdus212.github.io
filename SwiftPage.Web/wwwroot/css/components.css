@@ -1,0 +1,335 @@
+/* ============================================
+   컴포넌트별 스타일
+   ============================================ */
+
+/* ============================================
+   AppBar 컴포넌트
+   ============================================ */
+.appbar-root {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: var(--bv-shadow-sm);
+}
+
+.brand-link {
+    display: inline-flex;
+    align-items: center;
+    color: inherit;
+    text-decoration: none;
+    transition: all var(--bv-transition-base);
+    border-radius: var(--bv-radius-md);
+    padding: var(--bv-spacing-xs) var(--bv-spacing-sm);
+    margin-left: var(--bv-spacing-xs);
+}
+
+.brand-link:hover {
+    opacity: 0.85;
+    transform: translateY(-1px);
+}
+
+.brand-link:active {
+    transform: translateY(0);
+}
+
+.brand-stack {
+    padding: 0;
+    align-items: center;
+}
+
+.brand-logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--bv-radius-md);
+    padding: 6px;
+    transition: all var(--bv-transition-slow);
+    background: var(--mud-palette-primary);
+    box-shadow: var(--bv-shadow-md);
+}
+
+.mud-theme-light .brand-logo-container {
+    background: linear-gradient(135deg, #0078D4 0%, #005A9E 100%);
+    box-shadow: var(--bv-shadow-primary-md);
+}
+
+.mud-theme-dark .brand-logo-container {
+    background: linear-gradient(135deg, #0078D4 0%, #40A9FF 100%);
+    box-shadow: var(--bv-shadow-primary-md);
+}
+
+.brand-link:hover .brand-logo-container {
+    transform: scale(1.05) rotate(2deg);
+    box-shadow: var(--bv-shadow-primary-lg);
+}
+
+.brand-logo {
+    height: 20px;
+    width: auto;
+    display: block;
+    filter: brightness(0) invert(1);
+    transition: transform var(--bv-transition-slow);
+}
+
+.brand-link:hover .brand-logo {
+    transform: scale(1.1);
+}
+
+.brand-name {
+    font-weight: var(--bv-font-weight-semibold);
+    letter-spacing: 0.05em;
+    margin: 0;
+    transition: color var(--bv-transition-base);
+    background: linear-gradient(135deg, var(--mud-palette-text-primary) 0%, var(--mud-palette-primary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.mud-theme-light .brand-name {
+    background: linear-gradient(135deg, #323130 0%, #0078D4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.mud-theme-dark .brand-name {
+    background: linear-gradient(135deg, #FFFFFF 0%, #40A9FF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.header-menu-button {
+    text-transform: none;
+    font-weight: var(--bv-font-weight-medium);
+    padding-inline: var(--bv-spacing-sm);
+    min-width: auto;
+    border-radius: var(--bv-radius-md);
+    transition: all var(--bv-transition-base);
+}
+
+.header-menu-button ::deep .mud-button-text {
+    color: var(--mud-palette-text-primary) !important;
+}
+
+.header-menu-stack {
+    gap: 6px;
+}
+
+@media (max-width: 960px) {
+    .header-menu-button {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .brand-stack {
+        gap: 6px;
+    }
+
+    .brand-logo-container {
+        width: 28px;
+        height: 28px;
+        padding: 5px;
+    }
+
+    .brand-logo {
+        height: 18px;
+    }
+
+    .brand-name {
+        font-size: 0.9rem;
+    }
+
+    .brand-link {
+        padding: 2px 6px;
+    }
+}
+
+/* ============================================
+   Footer 컴포넌트
+   ============================================ */
+.footer-root {
+    background-color: var(--mud-palette-surface);
+    border-top: 1px solid var(--mud-palette-divider);
+    margin-top: auto;
+    padding-top: var(--bv-spacing-xl);
+    padding-bottom: var(--bv-spacing-xl);
+}
+
+.footer-icon {
+    color: var(--mud-palette-text-secondary);
+    transition: color var(--bv-transition-base);
+}
+
+.footer-link {
+    font-size: var(--bv-font-size-xs);
+    color: var(--mud-palette-text-secondary);
+    text-decoration: none;
+    transition: all var(--bv-transition-base);
+    border-radius: var(--bv-radius-sm);
+    padding: 2px 4px;
+}
+
+.footer-link:hover {
+    text-decoration: underline;
+    color: var(--mud-palette-primary);
+    background-color: color-mix(in srgb, var(--mud-palette-primary) 5%, transparent);
+}
+
+.footer-brand-name {
+    font-weight: var(--bv-font-weight-semibold);
+    letter-spacing: 0.05em;
+    background: linear-gradient(135deg, var(--mud-palette-text-primary) 0%, var(--mud-palette-primary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    transition: all var(--bv-transition-base);
+}
+
+.mud-theme-light .footer-brand-name {
+    background: linear-gradient(135deg, #323130 0%, #0078D4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.mud-theme-dark .footer-brand-name {
+    background: linear-gradient(135deg, #FFFFFF 0%, #40A9FF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+@media (max-width: 960px) {
+    .footer-root {
+        padding-top: var(--bv-spacing-lg);
+        padding-bottom: var(--bv-spacing-lg);
+    }
+}
+
+/* ============================================
+   Home 페이지
+   ============================================ */
+.hero-section {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--bv-radius-lg);
+    background: linear-gradient(135deg,
+            color-mix(in srgb, var(--mud-palette-primary) 6%, var(--mud-palette-surface) 94%) 0%,
+            var(--mud-palette-surface) 100%);
+    box-shadow: var(--bv-shadow-md);
+}
+
+.hero-title {
+    font-weight: 700;
+    background: linear-gradient(135deg,
+            var(--mud-palette-text-primary) 0%,
+            var(--mud-palette-text-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-highlight {
+    color: var(--mud-palette-primary);
+}
+
+.hero-body-text {
+    line-height: 1.7;
+    color: var(--mud-palette-text-secondary);
+    max-width: 550px;
+}
+
+.icon-badge {
+    padding: var(--bv-spacing-sm);
+    border-radius: var(--bv-radius-lg);
+    width: fit-content;
+    background: color-mix(in srgb, var(--mud-palette-primary) 10%, transparent);
+    transition: all var(--bv-transition-base);
+}
+
+.icon-badge:hover {
+    background: color-mix(in srgb, var(--mud-palette-primary) 15%, transparent);
+    transform: scale(1.05);
+}
+
+.feature-card,
+.template-card,
+.about-card {
+    border-radius: var(--bv-radius-lg);
+    background-color: var(--mud-palette-surface);
+    transition: all var(--bv-transition-slow);
+    border: 1px solid transparent;
+}
+
+.mud-theme-dark .feature-card,
+.mud-theme-dark .template-card,
+.mud-theme-dark .about-card {
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+.feature-card:hover,
+.template-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--bv-shadow-xl) !important;
+    border-color: color-mix(in srgb, var(--mud-palette-primary) 20%, transparent);
+}
+
+.template-card {
+    border-top: 4px solid transparent;
+}
+
+.template-primary {
+    border-top-color: var(--mud-palette-primary);
+}
+
+.template-success {
+    border-top-color: var(--mud-palette-success);
+}
+
+.template-warning {
+    border-top-color: var(--mud-palette-warning);
+}
+
+.template-secondary {
+    border-top-color: var(--mud-palette-secondary);
+}
+
+.template-icon {
+    font-size: 2.3rem;
+}
+
+@media (max-width: 960px) {
+    .hero-title {
+        font-size: 1.75rem !important;
+    }
+}
+
+/* ============================================
+   Team 페이지
+   ============================================ */
+.team-intro-card,
+.team-roles-card,
+.contact-card {
+    border-radius: var(--bv-radius-lg);
+    background-color: var(--mud-palette-surface);
+    transition: all var(--bv-transition-base);
+    border: 1px solid transparent;
+}
+
+.mud-theme-dark .team-intro-card,
+.mud-theme-dark .team-roles-card,
+.mud-theme-dark .contact-card {
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+.team-intro-card:hover,
+.team-roles-card:hover,
+.contact-card:hover {
+    box-shadow: var(--bv-shadow-lg);
+    border-color: color-mix(in srgb, var(--mud-palette-primary) 15%, transparent);
+}
+

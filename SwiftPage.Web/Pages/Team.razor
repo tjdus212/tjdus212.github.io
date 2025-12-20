@@ -1,0 +1,151 @@
+@page "/team"
+@using MudBlazor
+
+<PageTitle>팀 소개 - BuildVision</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-8 mb-16">
+
+    @* =========================
+       HERO
+       ========================= *@
+    <MudPaper Elevation="1" Class="hero-section mb-10 pa-0">
+        <MudContainer Class="pa-6 pa-md-8">
+            <MudStack Spacing="3" AlignItems="AlignItems.Center">
+                <MudChip T="string" Color="Color.Primary" Variant="Variant.Text" Size="Size.Small">
+                    TEAM
+                </MudChip>
+
+                <MudText Typo="Typo.h3" Class="hero-title" Align="Align.Center">
+                    BuildVision Team
+                </MudText>
+
+                <MudText Typo="Typo.body1" Align="Align.Center" Class="hero-body-text max-600">
+                    우리는 복잡함을 줄이고,  
+                    모든 기업이 더 빨리 일할 수 있는 화면을 만듭니다.
+                </MudText>
+            </MudStack>
+        </MudContainer>
+    </MudPaper>
+
+    @* =========================
+       OUR VALUES
+       ========================= *@
+    <MudStack Spacing="2" AlignItems="AlignItems.Center" Class="mb-6">
+        <MudChip T="string" Color="Color.Primary" Variant="Variant.Text" Size="Size.Small">
+            OUR VALUES
+        </MudChip>
+        <MudText Typo="Typo.h5" Class="font-semibold">
+            BuildVision이 일하는 방식
+        </MudText>
+    </MudStack>
+
+    <MudGrid Spacing="4" Class="mb-12">
+
+        @* 정체성 (Identity) *@
+        <MudItem xs="12" md="4">
+            <MudCard Elevation="1" Class="h-100 feature-card">
+                <MudCardContent Class="pa-5">
+                    <MudStack Spacing="3">
+                        <MudPaper Elevation="0" Class="icon-badge">
+                            <MudIcon Icon="@Icons.Material.Filled.PersonOutline" Color="Color.Primary" Size="Size.Large" />
+                        </MudPaper>
+
+                        <MudText Typo="Typo.overline" Color="Color.Primary">
+                            IDENTITY
+                        </MudText>
+
+                        <MudText Typo="Typo.subtitle1" Class="font-semibold">
+                            우리가 어떤 팀인가
+                        </MudText>
+
+                        <MudText Typo="Typo.body2" Class="text-muted-soft">
+                            우리는 화면을 ‘쉽게’ 만드는 팀이 아닙니다.  
+                            사용자가 매일 쓰는 화면을 ‘정확하게’ 만드는 팀입니다.  
+                            핵심 업무 흐름을 빠르게 만드는 구조에 집중합니다.
+                        </MudText>
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        @* 목표 (Mission) *@
+        <MudItem xs="12" md="4">
+            <MudCard Elevation="1" Class="h-100 feature-card">
+                <MudCardContent Class="pa-5">
+                    <MudStack Spacing="3">
+                        <MudPaper Elevation="0" Class="icon-badge">
+                            <MudIcon Icon="@Icons.Material.Filled.Flag" Color="Color.Primary" Size="Size.Large" />
+                        </MudPaper>
+
+                        <MudText Typo="Typo.overline" Color="Color.Primary">
+                            MISSION
+                        </MudText>
+
+                        <MudText Typo="Typo.subtitle1" Class="font-semibold">
+                            우리가 해결하는 문제
+                        </MudText>
+
+                        <MudText Typo="Typo.body2" Class="text-muted-soft">
+                            반복되는 업무는 기업의 속도를 늦춥니다.  
+                            우리는 그 속도를 방해하는 요소를 제거하고,  
+                            팀이 함께 같은 화면에서 더 빨리 일할 수 있게 만듭니다.
+                        </MudText>
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        @* 가치 (Values) *@
+        <MudItem xs="12" md="4">
+            <MudCard Elevation="1" Class="h-100 feature-card">
+                <MudCardContent Class="pa-5">
+                    <MudStack Spacing="3">
+                        <MudPaper Elevation="0" Class="icon-badge">
+                            <MudIcon Icon="@Icons.Material.Filled.StarBorder" Color="Color.Primary" Size="Size.Large" />
+                        </MudPaper>
+
+                        <MudText Typo="Typo.overline" Color="Color.Primary">
+                            VALUES
+                        </MudText>
+
+                        <MudText Typo="Typo.subtitle1" Class="font-semibold">
+                            우리가 지키는 기준
+                        </MudText>
+
+                        <MudList T="string" Dense="true" Class="text-muted-soft mt-1">
+                            <MudListItem>
+                                <b>단순함</b> — 빠른 판단을 막는 요소를 모두 제거합니다.
+                            </MudListItem>
+                            <MudListItem>
+                                <b>일관성</b> — 화면 구조가 바뀌지 않아야 업무가 빨라집니다.
+                            </MudListItem>
+                            <MudListItem>
+                                <b>실용성</b> — 실제 현장에서 바로 쓰일 수 있는 형태만 남깁니다.
+                            </MudListItem>
+                            <MudListItem>
+                                <b>유연성</b> — 기업마다 다른 규칙을 정확히 반영합니다.
+                            </MudListItem>
+                        </MudList>
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+    </MudGrid>
+
+    @* =========================
+       FOOTER MESSAGE
+       ========================= *@
+    <MudPaper Elevation="1" Class="about-card pa-5 pa-md-6">
+        <MudStack Spacing="2" AlignItems="AlignItems.Center">
+            <MudText Typo="Typo.subtitle1" Class="font-semibold" Align="Align.Center">
+                우리는 거대한 플랫폼을 약속하지 않습니다.
+            </MudText>
+            <MudText Typo="Typo.body2" Align="Align.Center" Class="text-muted-soft max-600">
+                대신, 매일 반복되는 업무가 더 빨라지는 화면을 정확하게 만듭니다.  
+                이것이 BuildVision이 가장 잘하는 일입니다.
+            </MudText>
+        </MudStack>
+    </MudPaper>
+
+</MudContainer>
